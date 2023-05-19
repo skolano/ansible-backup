@@ -1,0 +1,11 @@
+---
+- name: Export backup to wasabi
+  community.aws.s3_bucket_info:
+    bucket: "{{ sko_s3bucket }}"
+    endpoint_url: "{{ sko_s3url }}"
+    src: "{{ backup_staging }}"
+    object: "{{ backup_staging | basename }}"
+    region: "{{ sko_s3region }}"
+    mode: put
+    access_key: "{{ sko_s3key }}"
+    secret_key: "{{ sko_s3secret }}"

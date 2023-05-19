@@ -1,0 +1,3 @@
+---
+- name: Export backup to Rclone Remote
+  command: "rclone --config {{ rclone_config }} sync {{ backup_staging }} {{ rclone_remote }}"

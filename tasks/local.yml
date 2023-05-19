@@ -1,0 +1,8 @@
+---
+- name: Export backup to mounted storage
+  copy:
+    src: "{{ backup_staging }}"
+    dest: "{{ backup_local_destination }}"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: 0644

@@ -1,0 +1,106 @@
+---
+# Ansible role for backup SKO Desktop Environment
+
+## Pre tasks
+- name: Create staging space
+  file:
+    path: "{{ backup_staging }}"
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+
+- name: Check if main config exists
+  stat:
+    path: "{{ backup_staging }}/main.tar.gz"
+  register: main_backup
+
+- name: Check if appearance backup exists
+  stat:
+    path: "{{ backup_staging }}/appearance.tar.gz"
+  register: appearance_backup  
+
+- name: Check if data backup exists
+  stat:
+    path: "{{ backup_staging }}/data.tar.gz"
+  register: data_backup  
+
+- name: Check if flatpak backup exists
+  stat:
+    path: "{{ backup_staging }}/flatpak.tar.gz"
+  register: flatpak_backup  
+
+- name: Check if dots backup exists
+  stat:
+    path: "{{ backup_staging }}/dots.tar.gz"
+  register: dots_backup   
+
+################################
+#### MAIN TASKS
+################################
+- name: Backup main configuration
+  archive: 
+    path: "{{ backup_main_conf }}"
+    dest: /tmp/ansible-backup/main.tar.gz
+    format: gz
+  when: not main_backup.stat.exists  
+
+- name: Backup Appearance
+  archive: 
+    path: "{{ backup_appearance }}"
+    dest: "{{ backup_staging }}/appearance.tar.gz"
+    format: gz
+  when: not appearance_backup.stat.exists   
+
+- name: Backup Data
+  archive: 
+    path: "{{ backup_data }}"
+    dest: "{{ backup_staging }}/data.tar.gz"
+    format: gz
+  when: not data_backup.stat.exists     
+
+- name: Backup Flatpak Apps
+  archive: 
+    path: "{{ backup_flatpak }}"
+    dest: "{{ backup_staging }}/flatpak.tar.gz"
+    format: gz
+  when: not flatpak_backup.stat.exists   
+
+- name: Backup Apps configuraton 
+  archive: 
+    path: "{{ backup_dots }}"
+    dest: "{{ backup_staging }}/dots.tar.gz"
+    format: gz
+  when: not dots_backup.stat.exists
+
+#### Tasks for Gnome backup
+- name: Backup Gnome Keys
+  archive: 
+    path: "/home/{{ backup_user }}/.local/share/keyrings"
+    dest: /tmp/ansible-backup/gnome-keyring.tar.gz
+    format: gz
+  when: backup_desktop == "gnome" 
+
+- name: Backup Gnome Settings
+  raw: "sudo -u {{ backup_user }} dconf dump / > /tmp/ansible-backup/gnome-settings"
+  when: backup_desktop == "gnome"
+
+#### Export backup to Wasabi S3
+- include_tasks: wasabi.yml
+  when: backup_destination == "wasabi"  
+
+#### Export backup to mounted storage
+- include_tasks: local.yml
+  when: backup_destination == "local" 
+
+#### Export backup to mounted storage
+- include_tasks: nextcloud.yml
+  when: backup_destination == "nextcloud"   
+
+#### Export backup to Rclone remotes
+- include_tasks: rclone.yml
+  when: backup_destination == "rclone"   
+  
+- name: Clear staging space
+  file:
+    path: "{{ backup_staging }}"
+    state: absent

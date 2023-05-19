@@ -1,0 +1,75 @@
+---
+# MAIN VARS
+backup_user: # Your OS username
+backup_ts: true #  true, false
+
+# Temporary place for backup files. After all backup tasks staging
+# will be deleted.
+backup_staging: /tmp/ansible-backup 
+
+# Select your desktop environment. This is important for backup 
+# your favourite desktop configuration. (gnome-keyring, dconf)
+# Only gnome supported ad the moment
+backup_desktop: gnome
+
+#
+# EXPORT BACKUP VARIABLES
+# ---------------------------
+# Configure your backup destination and credentials 
+
+
+# Save place for your data. 
+backup_destination: rclone # rclone, local
+
+
+# WASABI CONNECTION - Configure your credentials
+sko_s3bucket: # Your bucket name
+sko_s3url: # https://s3.wasabisys.com 
+sko_s3region: # eu-central-1
+sko_s3key: # Access key
+sko_s3secret: # Secret key
+
+# NEXTCLOUD CONNECTIONS - Configure your credentials
+sko_nc_url: # Nextcloud url
+sko_nc_username: # Nextcloud username
+sko_nc_password: # Nextcloud "password"
+sko_nc_dest: # "/remote.php/dav/files/your_user/your_target"
+
+# RCLONE CONNECTIONS - Configure your credentials
+# Configure your remote first! /roles/files
+rclone_config: # "/home/{{  backup_user }}/.config/rclone/rclone.conf"
+rclone_remote: # Rclone remote and folder for example: myremote:backup/pc-1
+
+
+# LOCAL CONFIGURATION
+backup_local_destination: 
+
+#
+# BACKUP SOURCE DEFINITION
+# ---------------------------
+# Select files or directory you want to backup
+# Uncomment and edit path to backup.
+
+backup_main_conf:
+  - /etc/hosts
+  - /etc/fstab
+  - /etc/NetworkManager/system-connections
+  - "/home/{{ backup_user }}/.ssh"
+  - "/home/{{ backup_user }}/.ansible"
+
+backup_appearance:
+  - "/home/{{ backup_user }}/.icons"
+  - "/home/{{ backup_user }}/.fonts"
+  - "/home/{{ backup_user }}/.themes"
+
+backup_data:
+#  - "/home/{{ backup_user }}/Folder1"
+#  - "/home/{{ backup_user }}/Folder2"
+#  - "/home/{{ backup_user }}/Folder3"
+#  - "/home/{{ backup_user }}/Folder4"
+
+backup_flatpak:
+#  - "/home/{{ backup_user }}/.var/app"
+
+
+
