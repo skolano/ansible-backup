@@ -18,17 +18,19 @@ Role Variables
 
 All variables are descibed in: `vars/file/main.yml`
 
-Example Playbook
+How to run backup
 ----------------
+1. Download this repo `git clone https://github.com/skolano/ansible-backup`
+2. Edit `/vars/main.yml`and configure your variables
+3. Run playbook
+```bash
+ansible-playbook  playbook.yml
+```
+4. You can run this role on a schedule
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+`crontab -e`
+```bash
+0 9 * * * /usr/bin/ansible-playbook /path/to/your-playbook/playbook.yml
+```
 
-    - hosts: localhost
-      roles:
-         - { role: username.rolename, x: 42 }
-
-
-Author Information
-------------------
-[Szymon Kolano](https://www.linkedin.com/in/skolano/)
 
