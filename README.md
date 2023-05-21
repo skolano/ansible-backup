@@ -30,6 +30,7 @@ ansible-playbook  playbook.yml
 
 `crontab -e`
 ```bash
+# This scheduler will run Ansible playbook every day at 9:00 AM
 0 9 * * * /usr/bin/ansible-playbook /path/to/your-playbook/playbook.yml
 ```
 
