@@ -38,7 +38,7 @@ You can run this role on a schedule
 `crontab -e`
 ```bash
 # This scheduler will run Ansible playbook every day at 9:00 AM
-0 9 * * * /usr/1bin/ansible-playbook /path/to/your-playbook/playbook.yml
+0 9 * * * /usr/bin/ansible-playbook /path/to/your-playbook/playbook.yml
 ```
 
 
