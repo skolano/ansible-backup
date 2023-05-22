@@ -24,7 +24,7 @@ Exaple playbook
 ---
 - name: Backup Desktop Environment
   hosts: localhost
-# If you don't run this playbook as root set: become: yes
+# If you don't run this playbook as root set: become: true
 # become: true
   roles:
     - ansible-backup
