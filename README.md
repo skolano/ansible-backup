@@ -6,7 +6,7 @@ Backup role for Linux Desktop. Tasks:
 - Create compressed archive for: network connections, hosts, data, flatpack apps, app configs etc...
   *You choose what you want to backup in the var file `vars/file/main.yml`*
 - Export your backup data to backup destination (rclone remotes, mounted nfs or local folder)
-- Clean staging space
+- Clear staging space
 
 Requirements
 ------------
